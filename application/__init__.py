@@ -7,7 +7,8 @@ app.config["SQLALCHEMY_ECHO"] = True
 
 db = SQLAlchemy(app)
 
-from application import views
+from application.routes import home
 from application.models import boats
+from application.routes import boats
 
 db.create_all()

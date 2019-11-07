@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+<form method="POST" action="{{ url_for('modify_boat', boat_id=boat.id) }}">
+  <p>Old name: {{ boat.name }}</p>
+  <p>New name:</p>
+  <p><input type="text" name="name"/></p>
+  <input type="submit" value="Save"/>
+</form>
+{% endblock %}

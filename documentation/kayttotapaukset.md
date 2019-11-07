@@ -6,6 +6,7 @@
 - käyttäjä pystyy poistamaan varauksensa
 - seura tai admin-käyttäjä pystyy varaamaan kerralla useamman veneen
 - käyttäjä pystyy muokkaamaan useamman veneen varausta
+- käyttäjä pystyy listaamaan veneet ja niiden tiedot
 
 ## Statistiikka
 - käyttäjä pystyy tarkastelemaan yhteenvetoa tekemistään varauksista
