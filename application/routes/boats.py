@@ -13,11 +13,11 @@ def add_boat():
 
 @app.route("/boats/<boat_id>/", methods=["GET"])
 def show_boat(boat_id):
-    return render_template("boats/modify_boat.html", boat = Boat.query.get(boat_id))
+    boat = Boat.query.get(boat_id)
+    return render_template("boats/modify_boat.html", boat = boat,  form = BoatForm(obj=boat))
 
 @app.route("/boats/<boat_id>/delete/", methods=["POST"])
 def delete_boat(boat_id):
-    print("pöö")
     boat = Boat.query.get(boat_id)
     db.session().delete(boat)
     db.session().commit()
@@ -26,8 +26,13 @@ def delete_boat(boat_id):
 
 @app.route("/boats/<boat_id>/", methods=["POST"])
 def modify_boat(boat_id):
+    form = BoatForm(request.form)
     boat = Boat.query.get(boat_id)
-    boat.name = request.form.get("name")
+
+    if not form.validate():
+        return render_template("boats/modify_boat.html", boat = boat, form = form)
+
+    boat.name = form.name.data
     db.session().commit()
   
     return redirect(url_for("boats_index"))

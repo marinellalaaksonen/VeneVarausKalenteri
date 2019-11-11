@@ -2,9 +2,26 @@
   
 {% block body %}
 <form method="POST" action="{{ url_for('modify_boat', boat_id=boat.id) }}">
-  <p>Old name: {{ boat.name }}</p>
-  <p>New name:</p>
-  <p><input type="text" name="name"/></p>
-  <input type="submit" value="Save"/>
+  <table>
+    <tr>
+      <td>
+        {{ form.name.label }}
+      </td>
+      <td>
+        {{ form.name }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.name.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <input type="submit" value="Save"/>
+      </td>
+    </tr>
 </form>
 {% endblock %}
