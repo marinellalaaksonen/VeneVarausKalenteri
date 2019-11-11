@@ -1,6 +1,7 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
 from application.models.boats import Boat
+from application.forms.boat import BoatForm
 
 @app.route("/boats/", methods=["GET"])
 def boats_index():
@@ -8,7 +9,7 @@ def boats_index():
 
 @app.route("/boats/add/", methods=["GET"])
 def add_boat():
-    return render_template("boats/add_boat.html")
+    return render_template("boats/add_boat.html", form = BoatForm())
 
 @app.route("/boats/<boat_id>/", methods=["GET"])
 def show_boat(boat_id):
@@ -33,11 +34,14 @@ def modify_boat(boat_id):
 
 @app.route("/boats/", methods=["POST"])
 def create_boat():
-    boat = Boat(request.form.get("name"), "purjevene", "J/80")
+    form = BoatForm(request.form)
+
+    if not form.validate():
+        return render_template("boats/add_boat.html", form = form)
+
+    boat = Boat(form.name.data, "purjevene", "J/80")
 
     db.session().add(boat)
     db.session().commit()
 
     return redirect(url_for("boats_index"))
-
-#@app.route("/boats/modify/")

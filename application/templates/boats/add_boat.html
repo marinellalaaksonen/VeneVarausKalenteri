@@ -2,8 +2,26 @@
   
 {% block body %}
 <form method="POST" action="{{ url_for('create_boat') }}">
-  <p>Name of boat</p>
-  <p><input type="text" name="name"/></p>
-  <input type="submit" value="Add boat"/>
+  <table>
+    <tr>
+      <td>
+        {{ form.name.label }}
+      </td>
+      <td>
+        {{ form.name }}
+      </td>
+      <td>
+        <ul>
+          {% for error in form.name.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <input type="submit" value="Add boat"/>
+      </td>
+    </tr>
 </form>
 {% endblock %}
