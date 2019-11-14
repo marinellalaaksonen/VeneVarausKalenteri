@@ -2,14 +2,16 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Venevarauskalenteri</title>
+    <title>Boat booking calendar</title>
   </head>
 
   <body>
-      <ul>
-        <li><a href="{{ url_for('boats_index') }}">List boats</a></li>
-        <li><a href="{{ url_for('add_boat') }}">Add new boat</a></li>
-      </ul>
+    <a href="{{ url_for('show_login') }}">Login</a>
+
+    <ul>
+      <li><a href="{{ url_for('boats_index') }}">List boats</a></li>
+      <li><a href="{{ url_for('add_boat') }}">Add new boat</a></li>
+    </ul>
 
     {% block body %}
       <p>

@@ -3,9 +3,9 @@ from application import db
 class Boat(db.Model):
     __tablename__ = "boats"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(), nullable=False)
-    boat_type = db.Column(db.String(), nullable=False)
-    boat_class = db.Column(db.String(), nullable=False)
+    name = db.Column(db.String(144), nullable=False)
+    boat_type = db.Column(db.String(144), nullable=False)
+    boat_class = db.Column(db.String(144), nullable=False)
 
     def __init__(self, name, boat_type, boat_class):
         self.name = name

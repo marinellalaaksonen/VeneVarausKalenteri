@@ -1,7 +1,7 @@
 from application import app, db
 from flask import redirect, render_template, request, url_for
 from application.models.boats import Boat
-from application.forms.boat import BoatForm
+from application.forms.boatform import BoatForm
 
 @app.route("/boats/", methods=["GET"])
 def boats_index():
