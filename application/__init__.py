@@ -11,6 +11,8 @@ else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///veneverauskalenteri.db"    
     app.config["SQLALCHEMY_ECHO"] = True
 
+db = SQLAlchemy(app)
+
 from application.routes import home
 from application.routes import boats
 from application.routes import auth
