@@ -9,7 +9,7 @@ class Boat(db.Model):
     boat_type = db.Column(db.String(144), nullable=False)
     boat_class = db.Column(db.String(144), nullable=False)
 
-    reservations_for_boat = db.relationship("Reservation", secondary = boat_reservation, backref = "boats")
+    reservations_for_boat = db.relationship("Reservation", secondary = boat_reservation, back_populates = "boats_reserved")
 
     def __init__(self, name, boat_type, boat_class):
         self.name = name

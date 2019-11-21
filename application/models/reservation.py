@@ -14,7 +14,7 @@ class Reservation(db.Model):
     ending_time = db.Column(db.DateTime, nullable = False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable = False)
-    boats_reserved = db.relationship("Boat", secondary = boat_reservation, backref = "reservations")
+    boats_reserved = db.relationship("Boat", secondary = boat_reservation, back_populates = "reservations_for_boat")
 
     def __init__(self, starting_time, ending_time, user_id):
         self.starting_time = starting_time

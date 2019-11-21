@@ -17,12 +17,12 @@
         <td>{{ boat.boat_type }}</td>
         <td>{{ boat.boat_class }}</td>
         <td>
-          <div class="d-flex flex-row">
+          <div class="d-flex flex-row justify-content-around">
             <form method="GET" action="{{ url_for('show_boat', boat_id=boat.id) }}">
-              <input type="submit" value="modify"/>
+              <input class="btn btn-primary" type="submit" value="modify"/>
             </form>
             <form method="POST" action="{{ url_for('delete_boat', boat_id=boat.id) }}">
-              <input type="submit" value="delete"/>
+              <input class="btn btn-primary" type="submit" value="delete"/>
             </form>
           </div>
         </td>
