@@ -1,28 +1,33 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <table>
-    <tr>
-      <th>Boat</th>
-      <th>Type</th>
-      <th>Class</th>      
-    </tr>
-    {% for boat in boats %}
-    <tr>
-      <td>{{ boat.name }}</td>
-      <td>{{ boat.boat_type }}</td>
-      <td>{{ boat.boat_class }}</td>
-      <td>
-        <form method="GET" action="{{ url_for('show_boat', boat_id=boat.id) }}">
-          <input type="submit" value="modify"/>
-        </form>
-      </td>
-      <td>
-        <form method="POST" action="{{ url_for('delete_boat', boat_id=boat.id) }}">
-          <input type="submit" value="delete"/>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
+  <table class="table table-striped">
+    <thead class=thead-dark>
+      <tr>
+        <th>Boat</th>
+        <th>Type</th>
+        <th>Class</th> 
+        <th>Actions</th>     
+      </tr>
+    </thead>
+    <tbody>
+      {% for boat in boats %}
+      <tr>
+        <td>{{ boat.name }}</td>
+        <td>{{ boat.boat_type }}</td>
+        <td>{{ boat.boat_class }}</td>
+        <td>
+          <div class="d-flex flex-row">
+            <form method="GET" action="{{ url_for('show_boat', boat_id=boat.id) }}">
+              <input type="submit" value="modify"/>
+            </form>
+            <form method="POST" action="{{ url_for('delete_boat', boat_id=boat.id) }}">
+              <input type="submit" value="delete"/>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
 {% endblock %}

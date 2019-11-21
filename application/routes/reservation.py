@@ -16,12 +16,12 @@ def reserve_boat():
 def make_reservation():
     form = ReservationForm(request.form)
 
+    if not form.validate():
+        return render_template("reservations/reserve_boat.html", form = form)
+
     if form.starting_time.data > form.ending_time.data:
         return render_template("reservations/reserve_boat.html", form = form, 
                                 error = "Ending time should be after starting time")
-
-    if not form.validate():
-        return render_template("reservations/reserve_boat.html", form = form)
 
     # boats_reserved = Reservation.count_reserved_boats(form.starting_time.data, form.ending_time.data)
     # print("Veneitä varattu:", Reservation.count_available_boats(form.starting_time.data, form.ending_time.data))
