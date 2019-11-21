@@ -11,6 +11,8 @@ class User(db.Model):
     email = db.Column(db.String(144), nullable=False)
     password = db.Column(db.String(144), nullable=False)
 
+    users_reservations = db.relationship("Reservation", backref = "account")
+
     def __init__(self, name, username, password):
         self.name = name
         self.username = username

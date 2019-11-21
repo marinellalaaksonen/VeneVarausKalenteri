@@ -10,9 +10,12 @@ db = SQLAlchemy(app)
 from application.routes import home
 from application.routes import boats
 from application.routes import auth
+from application.routes import calendar
+from application.routes import reservation
 
 from application.models import boats
 from application.models import user
+from application.models import reservation
 
 from application.models.user import User
 from os import urandom

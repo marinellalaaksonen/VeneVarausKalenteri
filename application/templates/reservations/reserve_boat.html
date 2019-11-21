@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+{{ error }}
+<form method="POST" action="{{ url_for('make_reservation') }}">
+  <table>
+    <tr>
+        <td>
+            {{ form.starting_time.label }}
+        </td>
+        <td>
+            {{ form.starting_time }}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{ form.ending_time.label }}
+        </td>
+        <td>
+            {{ form.ending_time }}
+        </td>
+        </tr>
+    <tr>
+    <tr>
+        <td>
+            {{ form.boats.label }}
+        </td>
+        <td>
+            {{ form.boats }}
+        </td>
+        <td>
+            <ul>
+                {% for error in form.boats.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="submit" value="Reserve boat"/>
+        </td>
+    </tr>
+</form>
+{% endblock %}

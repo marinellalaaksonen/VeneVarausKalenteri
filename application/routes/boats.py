@@ -18,7 +18,7 @@ def add_boat():
 @login_required
 def show_boat(boat_id):
     boat = Boat.query.get(boat_id)
-    return render_template("boats/modify_boat.html", boat = boat,  form = BoatForm(obj=boat))
+    return render_template("boats/modify_boat.html", boat = boat, form = BoatForm(obj=boat))
 
 @app.route("/boats/<boat_id>/delete/", methods=["POST"])
 @login_required

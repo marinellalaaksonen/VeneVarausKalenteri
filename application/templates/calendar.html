@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <table>
+    <tr>
+      <th>Starting time</th>
+      <th>Ending time</th>
+      <th>Skipper</th>      
+    </tr>
+    {% for reservation in reservations %}
+    <tr>
+      <td>{{ reservation.starting_time }}</td>
+      <td>{{ reservation.ending_time }}</td>
+      <td>{{ reservation.user_id.name }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
