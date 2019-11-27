@@ -13,10 +13,11 @@ class User(db.Model):
 
     users_reservations = db.relationship("Reservation", backref = "account")
 
-    def __init__(self, name, username, password):
+    def __init__(self, name, username, password, email):
         self.name = name
         self.username = username
         self.password = password
+        self.email = email
   
     def get_id(self):
         return self.id

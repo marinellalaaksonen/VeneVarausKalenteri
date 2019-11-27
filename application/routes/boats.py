@@ -51,7 +51,7 @@ def create_boat():
     if not form.validate():
         return render_template("boats/add_boat.html", form = form)
 
-    boat = Boat(form.name.data, "purjevene", "J/80")
+    boat = Boat(form.name.data, "sailboat", "J/80")
 
     db.session().add(boat)
     db.session().commit()
