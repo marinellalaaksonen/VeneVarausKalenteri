@@ -27,10 +27,15 @@ def make_reservation():
         return render_template("reservations/reserve_boat.html", form = form, 
                                 error = "Ending time should be after starting time")
 
-    # boats_reserved = Reservation.count_reserved_boats(form.starting_time.data, form.ending_time.data)
-    # print("Veneitä varattu:", Reservation.count_available_boats(form.starting_time.data, form.ending_time.data))
+    available_boats = Boat.available_boats(starting, ending)
+    if len(available_boats) < form.boats.data:
+        return render_template("reservations/reserve_boat.html", form = form, 
+                                error = "Not enough boats available for this time")
+    
     reservation = Reservation(starting, ending, current_user.id)
-    reservation.boats_reserved.append(Boat.query.get(1))
+
+    for i in range(form.boats.data):
+        reservation.boats_reserved.append(Boat.query.get(available_boats[i]))
     
     db.session().add(reservation)
     db.session().commit()
