@@ -4,7 +4,7 @@ from sqlalchemy.sql import text
 
 boat_reservation = db.Table('boat_reservation',
     db.Column("reservation_id", db.Integer, db.ForeignKey("reservations.id")), 
-    db.Column("boats_id", db.Integer, db.ForeignKey("boats.id"))    
+    db.Column("boat_id", db.Integer, db.ForeignKey("boats.id"))    
 )
 
 class Reservation(db.Model):
