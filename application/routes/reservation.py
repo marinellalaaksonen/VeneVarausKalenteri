@@ -1,19 +1,19 @@
 from flask import redirect, render_template, request, url_for
-from flask_login import login_required, current_user
+from flask_login import current_user
 from datetime import datetime
 
-from application import app, db
+from application import app, db, login_required
 from application.models.boats import Boat
 from application.models.reservation import Reservation
 from application.forms.reservationform import ReservationForm
 
 @app.route("/reservation/", methods = ["GET"])
-@login_required
+@login_required()
 def reserve_boat():
     return render_template("reservations/reserve_boat.html", form = ReservationForm())
 
 @app.route("/reservation/", methods = ["POST"])
-@login_required
+@login_required()
 def make_reservation():
     form = ReservationForm(request.form)
 

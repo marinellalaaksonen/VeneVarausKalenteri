@@ -7,7 +7,9 @@
         <th>Boat</th>
         <th>Type</th>
         <th>Class</th> 
-        <th>Actions</th>     
+        {% if current_user.is_authenticated and "admin" in current_user.roles() %}
+          <th>Actions</th>     
+        {% endif %}
       </tr>
     </thead>
     <tbody>
@@ -16,16 +18,18 @@
         <td>{{ boat.name }}</td>
         <td>{{ boat.boat_type }}</td>
         <td>{{ boat.boat_class }}</td>
-        <td>
-          <div class="d-flex flex-row justify-content-around">
-            <form method="GET" action="{{ url_for('show_boat', boat_id=boat.id) }}">
-              <input class="btn btn-primary" type="submit" value="modify"/>
-            </form>
-            <form method="POST" action="{{ url_for('delete_boat', boat_id=boat.id) }}">
-              <input class="btn btn-primary" type="submit" value="delete"/>
-            </form>
-          </div>
-        </td>
+        {% if current_user.is_authenticated and "admin" in current_user.roles() %}
+          <td>
+            <div class="d-flex flex-row justify-content-around">
+              <form method="GET" action="{{ url_for('show_boat', boat_id=boat.id) }}">
+                <input class="btn btn-primary" type="submit" value="modify"/>
+              </form>
+              <form method="POST" action="{{ url_for('delete_boat', boat_id=boat.id) }}">
+                <input class="btn btn-primary" type="submit" value="delete"/>
+              </form>
+            </div>
+          </td>
+        {% endif %}
       </tr>
       {% endfor %}
     </tbody>

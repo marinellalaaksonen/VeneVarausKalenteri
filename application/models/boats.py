@@ -3,7 +3,7 @@ from application.models.reservation import boat_reservation
 from sqlalchemy.sql import text
 
 class Boat(db.Model):
-    __tablename__ = "boats"
+    __tablename__ = "boat"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(144), nullable=False)
     boat_type = db.Column(db.String(144), nullable=False)
@@ -18,8 +18,8 @@ class Boat(db.Model):
 
     @staticmethod
     def count_boats(boat_class = "J/80"):
-        stmt = text("SELECT COUNT(*) FROM boats"
-                    " WHERE boats.boat_class = :boat_class"
+        stmt = text("SELECT COUNT(*) FROM boat"
+                    " WHERE boat.boat_class = :boat_class"
                     ).params(boat_class = boat_class)
 
         result = db.engine.execute(stmt).fetchone()
@@ -28,10 +28,10 @@ class Boat(db.Model):
 
     @staticmethod
     def available_boats(starting_time, ending_time):
-        stmt = text("""SELECT bo.id FROM boats bo WHERE bo.id NOT IN (
-                        SELECT b.id FROM boats b
+        stmt = text("""SELECT bo.id FROM boat bo WHERE bo.id NOT IN (
+                        SELECT b.id FROM boat b
                         LEFT JOIN boat_reservation br ON b.id = br.boat_id
-                        LEFT JOIN reservations r ON br.reservation_id = r.id
+                        LEFT JOIN reservation r ON br.reservation_id = r.id
                         WHERE (r.starting_time < :ending_time AND r.ending_time > :starting_time))"""
                     ).params(starting_time = starting_time, ending_time = ending_time)
         boats = db.engine.execute(stmt)
