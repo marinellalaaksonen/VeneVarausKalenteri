@@ -22,10 +22,10 @@
           <td>
             <div class="d-flex flex-row justify-content-around">
               <form method="GET" action="{{ url_for('show_boat', boat_id=boat.id) }}">
-                <input class="btn btn-primary" type="submit" value="modify"/>
+                <button class="btn btn-primary" type="submit">modify</button>
               </form>
               <form method="POST" action="{{ url_for('delete_boat', boat_id=boat.id) }}">
-                <input class="btn btn-primary" type="submit" value="delete"/>
+                <button class="btn btn-primary" type="submit">delete</button>
               </form>
             </div>
           </td>

@@ -8,7 +8,7 @@ account_role = db.Table("account_role",
 class Role(db.Model):
     __tablename__ = "role"
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(144), nullable=False)
+    name = db.Column(db.String(144), nullable=False, unique=True)
 
     roles_users = db.relation("User", secondary = account_role, back_populates = "users_roles")
 
