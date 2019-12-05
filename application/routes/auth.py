@@ -1,5 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from flask_login import login_user, logout_user
+from sqlalchemy import exc
 
 from application import app, db
 from application.models.user import User
@@ -39,12 +40,16 @@ def create_user():
     if not form.validate():
         return render_template("auth/register.html", form = form)
 
-    user = User(form.name.data, form.username.data, form.password.data, "test")
+    try:
+        user = User(form.name.data, form.username.data, form.password.data, "test")
 
-    user.users_roles.append(Role.query.filter_by(name = "skipper").first())
+        user.users_roles.append(Role.query.filter_by(name = "skipper").first())
 
-    db.session.add(user)
-    db.session.commit()
+        db.session.add(user)
+        db.session.commit()
+    except exc.IntegrityError:
+        return render_template("auth/register.html", form = form,
+                               error = "The username is already in use, please select another username")
 
     login_user(user)
     return redirect(url_for("index"))
