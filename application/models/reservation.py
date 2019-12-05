@@ -21,6 +21,10 @@ class Reservation(db.Model):
         self.ending_time = ending_time
         self.user_id = user_id
 
+    def update(self, starting, ending):
+        self.starting_time = starting
+        self.ending_time = ending
+
     @staticmethod
     def count_reserved_boats(starting_time, ending_time):
         stmt = text("SELECT COUNT(*) FROM boat_reservation br"

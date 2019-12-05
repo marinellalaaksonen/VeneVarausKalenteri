@@ -6,7 +6,8 @@
             <tr>
                 <th>Starting time</th>
                 <th>Ending time</th>
-                <th>Skipper</th>      
+                <th>Skipper</th>     
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -15,6 +16,18 @@
                 <td>{{ reservation.starting_time }}</td>
                 <td>{{ reservation.ending_time }}</td>
                 <td>{{ reservation.user_id }}</td>
+                {% if current_user.is_authenticated and current_user.id == reservation.user_id %}
+                    <td>
+                        <div class="d-flex flex-row justify-content-around">
+                        <form method="GET" action="{{ url_for('show_reservation', reservation_id=reservation.id) }}">
+                            <input class="btn btn-primary" type="submit" value="modify"/>
+                        </form>
+                        <form method="POST" action="{{ url_for('delete_reservation', reservation_id=reservation.id) }}">
+                            <input class="btn btn-primary" type="submit" value="delete"/>
+                        </form>
+                        </div>
+                    </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>    

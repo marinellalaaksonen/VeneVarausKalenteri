@@ -41,3 +41,22 @@ class Boat(db.Model):
             response.append(boat[0])
 
         return response
+
+    @staticmethod
+    def available_boats_for_changing_reservation(starting_time, ending_time, reservation_id):
+        stmt = text("""SELECT bo.id FROM boat bo WHERE bo.id NOT IN (
+                        SELECT b.id FROM boat b
+                        LEFT JOIN boat_reservation br ON b.id = br.boat_id
+                        LEFT JOIN reservation r ON br.reservation_id = r.id
+                        WHERE ((r.starting_time < :ending_time AND r.ending_time > :starting_time)
+                         AND r.id <> :reservation_id))"""
+                    ).params(
+                        starting_time = starting_time, ending_time = ending_time, reservation_id  = reservation_id
+                    )
+        boats = db.engine.execute(stmt)
+
+        response = []
+        for boat in boats:
+            response.append(boat[0])
+
+        return response
