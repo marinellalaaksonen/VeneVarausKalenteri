@@ -42,6 +42,7 @@ Veneiden määrän muuttaminen:
 INSERT INTO boat_reservation (reservation_id, boat_id) VALUES (2, 2)
 DELETE FROM boat_reservation WHERE boat_reservation.reservation_id = 3 AND boat_reservation.boat_id = 2
 ```
+- käyttäjä pystyy tarkastelemaan tekemiään varauksia
 - käyttäjä pystyy listaamaan veneet ja niiden tiedot
 ```
 SELECT b.name, b.boat_type, b.boat_class FROM boat b
