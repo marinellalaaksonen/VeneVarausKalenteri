@@ -9,6 +9,7 @@ DELETE FROM reservation WHERE reservation.id = 2
 DELETE FROM boat_reservation WHERE boat_reservation.reservation_id = 2 AND boat_reservation.boat_id = 1
 ```
 - seura tai admin-käyttäjä pystyy varaamaan kerralla useamman veneen
+
 Vapaana olevien veneiden hakeminen:
 ```
 SELECT bo.id FROM boat bo WHERE bo.id NOT IN (
@@ -23,6 +24,7 @@ INSERT INTO reservation VALUES(1,'2019-11-30 13:30:00.000000','2019-11-30 16:30:
 INSERT INTO boat_reservation VALUES(1,1);
 ```
 - käyttäjä pystyy muokkaamaan useamman veneen varausta
+
 Vapaana olevien veneiden hakeminen:
 ```
 SELECT bo.id FROM boat bo WHERE bo.id NOT IN (
