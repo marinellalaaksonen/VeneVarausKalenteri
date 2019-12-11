@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
   
 {% block body %}
-<form method="POST" action="{{ url_for('create_boat') }}">
+<form method="POST" action="{{ form_action }}">
   <div class="form-group">
     {{ form.name.label }}
     {{ form.name(class="form-control", placeholder="Boat name") }}
@@ -9,6 +9,6 @@
       {{ error }}
     {% endfor %}
   </div>
-  <button type="submit" class="btn btn-primary">Add boat</button>
+  <button type="submit" class="btn btn-primary">{{ button_text }}</button>
 </form>
 {% endblock %}

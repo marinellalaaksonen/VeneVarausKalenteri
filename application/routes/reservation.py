@@ -10,7 +10,10 @@ from application.forms.reservationform import ReservationForm
 @app.route("/reservation/", methods = ["GET"])
 @login_required()
 def reserve_boat():
-    return render_template("reservations/reserve_boat.html", form = ReservationForm())
+    return render_template("reservations/show_reservationform.html", 
+                            form = ReservationForm(), 
+                            form_action = url_for("make_reservation"), 
+                            button_text = "Reserve boat")
 
 @app.route("/reservation/", methods = ["POST"])
 @login_required()
@@ -18,18 +21,24 @@ def make_reservation():
     form = ReservationForm(request.form)
 
     if not form.validate():
-        return render_template("reservations/reserve_boat.html", form = form)
+        return render_template("reservations/show_reservationform.html", 
+                                form = form, 
+                                form_action = url_for("make_reservation"), 
+                                button_text = "Reserve boat")
 
     starting = datetime.combine(form.starting_date.data, form.starting_time.data)
     ending = datetime.combine(form.ending_date.data, form.ending_time.data)
 
-    if starting > ending:
-        return render_template("reservations/reserve_boat.html", form = form, 
-                                error = "Ending time should be after starting time")
+    # if starting > ending:
+    #     return render_template("reservations/reserve_boat.html", form = form, 
+    #                             error = "Ending time should be after starting time")
 
     available_boats = Boat.available_boats(starting, ending)
     if len(available_boats) < form.boats.data:
-        return render_template("reservations/reserve_boat.html", form = form, 
+        return render_template("reservations/show_reservationform.html", 
+                                form = form, 
+                                form_action = url_for("make_reservation"), 
+                                button_text = "Reserve boat",  
                                 error = "Not enough boats available for this time")
     
     reservation = Reservation(starting, ending, current_user.id)
@@ -50,13 +59,12 @@ def show_reservation(reservation_id):
     if reservation.user_id != current_user.id:
         return redirect(url_for("calendar_index"))
         
-    return render_template(
-        "reservations/modify_reservation.html", 
-        reservation = reservation, form = ReservationForm(obj=reservation)
-    )
+    return render_template("reservations/show_reservationform.html", 
+                            reservation = reservation, 
+                            form = ReservationForm(obj=reservation),
+                            form_action = url_for("modify_reservation", reservation_id=reservation_id),
+                            button_text = "Save changes")
 
-
-#Testaa toimiiko + miten tehdään yhdessä transaktiossa. Parempi poistaa eka vaan kaikki veneet, helpottaisi aika paljon?
 @app.route("/reservation/<reservation_id>/", methods = ["POST"])
 @login_required()
 def modify_reservation(reservation_id):
@@ -67,18 +75,26 @@ def modify_reservation(reservation_id):
         return redirect(url_for("calendar_index"))
 
     if not form.validate():
-        return render_template("reservations/modify_reservation.html", reservation = reservation, form = form)
+        return render_template("reservations/show_reservationform.html", 
+                                reservation = reservation, 
+                                form = form,
+                                form_action = url_for("modify_reservation", reservation_id=reservation_id),
+                                button_text = "Save changes")
 
     starting = datetime.combine(form.starting_date.data, form.starting_time.data)
     ending = datetime.combine(form.ending_date.data, form.ending_time.data)
 
-    if starting > ending:
-        return render_template("reservations/modify_reservation.html", reservation = reservation, form = form, 
-                                error = "Ending time should be after starting time")
+    # if starting > ending:
+    #     return render_template("reservations/modify_reservation.html", reservation = reservation, form = form, 
+    #                             error = "Ending time should be after starting time")
 
     available_boats = Boat.available_boats_for_changing_reservation(starting, ending, reservation.id)
     if len(available_boats) < form.boats.data:
-        return render_template("reservations/modify_reservation.html", reservation = reservation, form = form, 
+        return render_template("reservations/show_reservationform.html", 
+                                reservation = reservation, 
+                                form = form,
+                                form_action = url_for("modify_reservation", reservation_id=reservation_id),
+                                button_text = "Save changes", 
                                 error = "Not enough boats available for this time")
     
     reservation.update(starting, ending)
