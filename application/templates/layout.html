@@ -9,9 +9,12 @@
   <body>
     
     <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <a class="navbar-brand" href="{{ url_for('index') }}">Boat booking calendar</a>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item"><a class="nav-link" href="{{ url_for('reserve_boat') }}">Reserve boat</a></li>
+          {% if current_user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('reserve_boat') }}">Reserve boat</a></li>
+          {% endif %}
           <li class="nav-item"><a class="nav-link" href="{{ url_for('calendar_index') }}">Show reservations</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ url_for('boats_index') }}">List boats</a></li>
           {% if current_user.is_authenticated and "admin" in current_user.roles() %}

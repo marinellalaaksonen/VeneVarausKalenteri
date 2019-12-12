@@ -29,9 +29,9 @@ class Boat(db.Model):
     @staticmethod
     def available_boats(starting_time, ending_time):
         stmt = text("""SELECT bo.id FROM boat bo WHERE bo.id NOT IN (
-                        SELECT b.id FROM boat b
-                        LEFT JOIN boat_reservation br ON b.id = br.boat_id
-                        LEFT JOIN reservation r ON br.reservation_id = r.id
+                        SELECT DISTINCT b.id FROM boat b
+                        JOIN boat_reservation br ON b.id = br.boat_id
+                        JOIN reservation r ON br.reservation_id = r.id
                         WHERE (r.starting_time < :ending_time AND r.ending_time > :starting_time))"""
                     ).params(starting_time = starting_time, ending_time = ending_time)
         boats = db.engine.execute(stmt)
@@ -45,9 +45,9 @@ class Boat(db.Model):
     @staticmethod
     def available_boats_for_changing_reservation(starting_time, ending_time, reservation_id):
         stmt = text("""SELECT bo.id FROM boat bo WHERE bo.id NOT IN (
-                        SELECT b.id FROM boat b
-                        LEFT JOIN boat_reservation br ON b.id = br.boat_id
-                        LEFT JOIN reservation r ON br.reservation_id = r.id
+                        SELECT DISTINCT b.id FROM boat b
+                        JOIN boat_reservation br ON b.id = br.boat_id
+                        JOIN reservation r ON br.reservation_id = r.id
                         WHERE ((r.starting_time < :ending_time AND r.ending_time > :starting_time)
                          AND r.id <> :reservation_id))"""
                     ).params(

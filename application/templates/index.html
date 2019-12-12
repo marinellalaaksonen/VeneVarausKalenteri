@@ -2,6 +2,9 @@
 
 {% block body %}
 <p>
-    Number of reservations in 2019: {{ boats_reserved_2019 }}
+    Number of reservations in {{ current_year }}: {{ boats_reserved }}
+</p>
+<p>
+    Average {{ "%.1f" % avg_reserved_boats_per_skipper }} reservations per skipper
 </p>
 {% endblock %}

@@ -35,3 +35,38 @@ class Reservation(db.Model):
         result = db.engine.execute(stmt).fetchone()
 
         return result[0]
+
+    @staticmethod
+    def count_reserved_boats_for_user(starting_time, ending_time, user_id):
+        stmt = text("SELECT COUNT(*) FROM boat_reservation br"
+                    " JOIN reservation r ON r.id = br.reservation_id"
+                    " WHERE (r.starting_time < :ending_time"
+                    "  AND r.ending_time > :starting_time"
+                    "  AND r.id = :user_id)"
+                    ).params(starting_time = starting_time, 
+                                ending_time = ending_time, 
+                                user_id = user_id)
+
+        result = db.engine.execute(stmt).fetchone()
+
+        return result[0]
+
+    @staticmethod
+    def avg_reserved_boats_per_skipper(starting_time, ending_time):
+        stmt = text("SELECT avg(result) FROM("
+                    " SELECT count(*) AS result FROM boat_reservation br"
+                    "  JOIN reservation r ON r.id = br.reservation_id"
+                    "  WHERE (r.starting_time < :ending_time"
+                    "   AND r.ending_time > :starting_time"
+                    "   AND r.user_id NOT IN ("
+                    "    SELECT ar.account_id FROM account_role ar"
+                    "    JOIN role r ON r.id = ar.role_id"
+                    "    WHERE r.name = 'admin'"
+                    "     OR r.name = 'club'))"
+                    "   GROUP BY r.user_id)"
+                    ).params(starting_time = starting_time, 
+                                ending_time = ending_time)
+
+        result = db.engine.execute(stmt).fetchone()
+
+        return result[0]
