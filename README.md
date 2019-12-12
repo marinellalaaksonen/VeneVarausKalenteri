@@ -1,6 +1,6 @@
 # Venevarauskalenteri
 
-Tehdään venevarauskalenteri, jossa käytäjä voi varata yhden tai useamman veneen haluammalleen ajanjaksolle. Käyttäjäryhmiä ovat purjehtijat, seura-käyttäjät ja admin. Purjehtija pystyy varaamaan kerrallaan yhden veneen ja hänellä voi olla voimassa korkeintaan neljä varausta kerralla. Seura- ja admin-käyttäjät pystyvät varaamaan useita veneitä kerralla ja varausten kokonaismäärää ei ole rajoitettu. Käyttäjä pystyy myös muokkaamaan ja poistamaan varauksiaan. 
+Tehdään venevarauskalenteri, jossa käytäjä voi varata yhden tai useamman veneen haluammalleen ajanjaksolle. Käyttäjäryhmiä ovat purjehtijat, seura-käyttäjät ja admin. Kipparit varaavat veneen omalle tiimilleen ja pystyy varaamaan kerrallaan vain yhden veneen. Kipparilla voi olla voimassa korkeintaan neljä varausta kerralla. Seura- ja admin-käyttäjät varaavat veneitä seuran järjestämiin harjoituksiin ja kilpailuihin ja pystyvät varaamaan useita veneitä kerralla. Varausten kokonaismäärää ei ole rajoitettu. Käyttäjä pystyy myös muokkaamaan ja poistamaan varauksiaan. 
 
 Admin pystyy lisäämään, muokkaamaan ja poistamaan veneitä. Sovelluksesta voi myös tarkastella veneiden käyttömääriä sekä yhteenvetoa käyttäjän varauksista.
 

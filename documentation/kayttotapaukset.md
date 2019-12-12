@@ -52,8 +52,28 @@ SELECT b.name, b.boat_type, b.boat_class FROM boat b
 
 ## Statistiikka
 - käyttäjä pystyy tarkastelemaan yhteenvetoa tekemistään varauksista
-- seura tai admin-käyttäjä pystyy tarkastelemaan yhteenvetoa veneiden käyttöasteesta
-
+- käyttäjät näkevät yhteenvedon kaikista vuoden aikana tehdyistä varauksista
+Varauksia yhteensä kuluvana vuonna (kaikkien käyttäjäryhmien varaukset):
+```
+SELECT count(*) AS result FROM boat_reservation br
+JOIN reservation r ON r.id = br.reservation_id
+WHERE (r.starting_time < "2020-01-01 00:00:00"
+    AND r.ending_time > "2019-01-01 00:00:00"
+```
+Kipparilla varauksia keskimäärin (mukaan lasketaan kuluvan vuoden aikana varauksia tehneet kipparit, joilla ei ole ryhmä- tai admin-oikeuksia):
+```
+SELECT avg(result) FROM(
+    SELECT count(*) AS result FROM boat_reservation br
+    JOIN reservation r ON r.id = br.reservation_id
+    WHERE (r.starting_time < "2020-01-01 00:00:00"
+        AND r.ending_time > "2019-01-01 00:00:00"
+        AND r.user_id NOT IN (
+            SELECT ar.account_id FROM account_role ar
+            JOIN role r ON r.id = ar.role_id
+            WHERE r.name = 'admin'
+                OR r.name = 'club'))
+    GROUP BY r.user_id)
+```
 ## Veneiden hallinnointi
 - admin pystyy lisäämään veneen
 ```
@@ -71,7 +91,6 @@ DELETE FROM boat_reservation WHERE boat_reservation.reservation_id = 3 AND boat_
 ```
 UPDATE boat SET boat_name = 'YoT'
 ```
-- admin pystyy estämään varaukset veneille jotka eivät ole kunnossa
 
 ## Käyttäjien hallinnointi
 - käyttäjä pystyy rekisteröitymään
