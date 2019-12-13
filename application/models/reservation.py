@@ -60,6 +60,7 @@ class Reservation(db.Model):
 
         return result[0]
 
+    #counts average reservations per skipper, not counting admin and club users
     @staticmethod
     def avg_reserved_boats_per_skipper(starting_time, ending_time):
         stmt = text("SELECT avg(result) FROM("

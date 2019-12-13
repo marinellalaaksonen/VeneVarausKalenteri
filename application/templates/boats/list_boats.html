@@ -24,7 +24,7 @@
               <form method="GET" action="{{ url_for('show_boat', boat_id=boat.id) }}">
                 <button class="btn btn-primary" type="submit">modify</button>
               </form>
-              <form method="POST" action="{{ url_for('delete_boat', boat_id=boat.id) }}">
+              <form method="POST" action="{{ url_for('delete_boat', boat_id=boat.id) }}" onsubmit="return confirm('Are you sure you want to delete boat {{ boat.name }}?');">
                 <button class="btn btn-primary" type="submit">delete</button>
               </form>
             </div>
