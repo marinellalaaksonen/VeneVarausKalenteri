@@ -23,25 +23,9 @@ def reserve_boat():
 def make_reservation():
     form = ReservationForm(request.form)
 
-    if not ("admin" in current_user.roles() or "club" in current_user.roles()):
-        del form.boats
-
-    if not form.validate():
-        return render_template("reservations/show_reservationform.html", 
-                                form = form, 
-                                form_action = url_for("make_reservation"), 
-                                button_text = "Reserve boat")
-
-    starting = datetime.combine(form.starting_date.data, form.starting_time.data)
-    ending = datetime.combine(form.ending_date.data, form.ending_time.data)
-    message = validate_reservation_times(starting, ending)
-
-    if not message == "Clear":
-        return render_template("reservations/show_reservationform.html",
-                                form = form, 
-                                form_action = url_for("make_reservation"), 
-                                button_text = "Reserve boat",
-                                error = message)
+    validate_form(form, 
+                    form_action = url_for("make_reservation"), 
+                    button_text = "Reserve boat")
 
     if "admin" in current_user.roles() or "club" in current_user.roles():
         number_of_boats = form.boats.data
@@ -57,13 +41,16 @@ def make_reservation():
                                     error = "You can only have 4 reservations")
         number_of_boats = 1
 
+    starting = datetime.combine(form.starting_date.data, form.starting_time.data)
+    ending = datetime.combine(form.ending_date.data, form.ending_time.data)
     available_boats = Boat.available_boats(starting, ending)
     if len(available_boats) < number_of_boats:
         return render_template("reservations/show_reservationform.html", 
                                 form = form, 
                                 form_action = url_for("make_reservation"), 
                                 button_text = "Reserve boat",  
-                                error = "Not enough boats available for this time")
+                                error = "Not enough boats available for this time, only " +
+                                    len(available_boats) + "boats available")
     
     reservation = Reservation(starting, ending, current_user.id)
 
@@ -87,8 +74,7 @@ def show_reservation(reservation_id):
     if not "admin" in current_user.roles() or "club" in current_user.roles():
         del form.boats
         
-    return render_template("reservations/show_reservationform.html", 
-                            reservation = reservation, 
+    return render_template("reservations/show_reservationform.html",  
                             form = form,
                             form_action = url_for("modify_reservation", reservation_id=reservation_id),
                             button_text = "Save changes")
@@ -102,33 +88,17 @@ def modify_reservation(reservation_id):
     if reservation.user_id != current_user.id or reservation.ending_time < datetime.now():
         return redirect(url_for("calendar_index"))
 
-    if not ("admin" in current_user.roles() or "club" in current_user.roles()):
-        del form.boats
-
-    if not form.validate():
-        return render_template("reservations/show_reservationform.html", 
-                                reservation = reservation, 
-                                form = form,
-                                form_action = url_for("modify_reservation", reservation_id=reservation_id),
-                                button_text = "Save changes")
-
-    starting = datetime.combine(form.starting_date.data, form.starting_time.data)
-    ending = datetime.combine(form.ending_date.data, form.ending_time.data)
-    message = validate_reservation_times(starting, ending)
-
-    if not message == "Clear":
-        return render_template("reservations/show_reservationform.html", 
-                                reservation = reservation, 
-                                form = form, 
-                                form_action = url_for("modify_reservation", reservation_id=reservation_id),
-                                button_text = "Save changes",
-                                error = message)
+    validate_form(form, 
+                    form_action = url_for("modify_reservation", reservation_id=reservation_id), 
+                    button_text = "Save changes")
 
     if "admin" in current_user.roles() or "club" in current_user.roles():
         number_of_boats = form.boats.data
     else:
         number_of_boats = 1
 
+    starting = datetime.combine(form.starting_date.data, form.starting_time.data)
+    ending = datetime.combine(form.ending_date.data, form.ending_time.data)
     available_boats = Boat.available_boats_for_changing_reservation(starting, ending, reservation.id)
     if len(available_boats) < number_of_boats:
         return render_template("reservations/show_reservationform.html", 
@@ -136,7 +106,8 @@ def modify_reservation(reservation_id):
                                 form = form,
                                 form_action = url_for("modify_reservation", reservation_id=reservation_id),
                                 button_text = "Save changes", 
-                                error = "Not enough boats available for this time")
+                                error = "Not enough boats available for this time, only " +
+                                    len(available_boats) + "boats available")
     
     reservation.update(starting, ending)
     reservation.boats_reserved = []
@@ -161,6 +132,27 @@ def delete_reservation(reservation_id):
     db.session.commit()
 
     return redirect(url_for("calendar_index"))
+
+def validate_form(form, form_action, button_text):
+    if not ("admin" in current_user.roles() or "club" in current_user.roles()):
+        del form.boats
+
+    if not form.validate():
+        return render_template("reservations/show_reservationform.html", 
+                                form = form, 
+                                form_action = form_action, 
+                                button_text = button_text)
+
+    starting = datetime.combine(form.starting_date.data, form.starting_time.data)
+    ending = datetime.combine(form.ending_date.data, form.ending_time.data)
+    message = validate_reservation_times(starting, ending)
+
+    if not message == "Clear":
+        return render_template("reservations/show_reservationform.html",
+                                form = form, 
+                                form_action = form_action, 
+                                button_text = button_text,
+                                error = message)
 
 def validate_reservation_times(starting, ending):
     if starting < datetime.now():
