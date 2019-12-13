@@ -78,5 +78,7 @@ class Reservation(db.Model):
                                 ending_time = ending_time)
 
         result = db.engine.execute(stmt).fetchone()
-
+        
+        if result[0] is None:
+            return 0
         return result[0]
