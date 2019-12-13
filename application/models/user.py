@@ -11,7 +11,7 @@ class User(db.Model):
 
     name = db.Column(db.String(144), nullable=False)
     username = db.Column(db.String(144), nullable=False, unique=True)
-    email = db.Column(db.String(144), nullable=False)
+    email = db.Column(db.String(144), nullable=False) #tämä ei ole vielä käytössä, tässä mukana lähinnä jatkokehitettävyyttä varten
     password = db.Column(db.String(144), nullable=False)
 
     users_reservations = db.relationship("Reservation", backref = "account")

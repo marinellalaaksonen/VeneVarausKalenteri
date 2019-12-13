@@ -16,7 +16,7 @@ SELECT bo.id FROM boat bo WHERE bo.id NOT IN (
     SELECT b.id FROM boat b
     LEFT JOIN boat_reservation br ON b.id = br.boat_id
     LEFT JOIN reservation r ON br.reservation_id = r.id
-    WHERE (r.starting_time < :ending_time AND r.ending_time > :starting_time))
+    WHERE (r.starting_time < '2019-11-30 16:30:00.000000' AND r.ending_time > '2019-11-30 13:30:00.000000')
 ```
 Veneen varaaminen:
 ```
@@ -31,8 +31,8 @@ SELECT bo.id FROM boat bo WHERE bo.id NOT IN (
     SELECT b.id FROM boat b
     LEFT JOIN boat_reservation br ON b.id = br.boat_id
     LEFT JOIN reservation r ON br.reservation_id = r.id
-    WHERE ((r.starting_time < :ending_time AND r.ending_time > :starting_time)
-        AND r.id <> :reservation_id))
+    WHERE ((r.starting_time < '2019-12-04 18:30:00.000000' AND r.ending_time > '2019-12-04 15:30:00.000000')
+        AND r.id <> 2)
 ```
 Varauksen ajan muuttaminen:
 ```

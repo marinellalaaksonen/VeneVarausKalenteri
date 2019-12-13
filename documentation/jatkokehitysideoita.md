@@ -8,4 +8,7 @@
     - veneraportin sitominen purjehtijoilla varaukseen siten, että uusien varausten teko estyy kunnes veneraportti on tehty
         - tällöin myös joku nappula "treenit peruttu" ja syy siihen
 - admin/seurakäyttäjä pystyy tekemään alustavan venevarauksen/place holderin, jonka päälle voi tehdä varsinaisia varauksia
+- varasijamahdollisuus jos kaikki veneet varattuja
 - admin pystyy estämään varaukset veneille jotka eivät ole kunnossa
+- rekisteröitymisen muuttaminen niin, että admin lisää käyttäjän. Admin pystyy myös muuttamaan käyttäjän tietoja ja poistamaan käyttäjän (mahdollisesti soft delete)
+- veneen poiston muuttaminen soft deleteksi
