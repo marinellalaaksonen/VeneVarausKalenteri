@@ -15,6 +15,9 @@ Sovellusta pääsee käyttämään [Herokussa](https://boat-booking-calendar.her
 tavallinen käyttäjä: 
   username: test  
   password: testtest
+seurakäyttäjä: 
+  username: club  
+  password: clubclub
 admin:
   username: admin  
   password: adminadmin
