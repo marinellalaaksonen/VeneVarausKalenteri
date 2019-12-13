@@ -163,7 +163,7 @@ def validate_form(form, form_action, button_text):
     return "Clear"
 
 def validate_reservation_times(starting, ending):
-    if starting < datetime.now():
+    if starting < datetime.utcnow() + timedelta(hours = 2):
         return "Starting time should be in the future"
     elif starting >= ending:
         return "Ending date or time should be after starting time"
