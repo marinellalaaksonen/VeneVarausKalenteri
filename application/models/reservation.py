@@ -63,7 +63,8 @@ class Reservation(db.Model):
                     "    JOIN role r ON r.id = ar.role_id"
                     "    WHERE r.name = 'admin'"
                     "     OR r.name = 'club'))"
-                    "   GROUP BY r.user_id)"
+                    "  GROUP BY r.user_id)"
+                    "AS skipper_reservation_counts"
                     ).params(starting_time = starting_time, 
                                 ending_time = ending_time)
 
