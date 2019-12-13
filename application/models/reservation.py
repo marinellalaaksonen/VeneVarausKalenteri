@@ -25,6 +25,15 @@ class Reservation(db.Model):
         self.starting_time = starting
         self.ending_time = ending
 
+    def number_of_boats(self):
+        stmt = text("SELECT COUNT(*) FROM boat_reservation br"
+                    " WHERE br.reservation_id = :reservation_id"
+                    ).params(reservation_id = self.id)
+
+        result = db.engine.execute(stmt).fetchone()
+
+        return result[0]
+
     @staticmethod
     def count_reserved_boats(starting_time, ending_time):
         stmt = text("SELECT COUNT(*) FROM boat_reservation br"
@@ -42,7 +51,7 @@ class Reservation(db.Model):
                     " JOIN reservation r ON r.id = br.reservation_id"
                     " WHERE (r.starting_time < :ending_time"
                     "  AND r.ending_time > :starting_time"
-                    "  AND r.id = :user_id)"
+                    "  AND r.user_id = :user_id)"
                     ).params(starting_time = starting_time, 
                                 ending_time = ending_time, 
                                 user_id = user_id)
