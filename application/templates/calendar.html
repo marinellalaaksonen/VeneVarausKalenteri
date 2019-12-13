@@ -24,7 +24,7 @@
                     <tr>
                         <td>{{ reservation.starting_time }}</td>
                         <td>{{ reservation.ending_time }}</td>
-                        <td>{{ reservation.name }}</td>
+                        <td>{{ reservation.number_of_boats() }}</td>
                         {% if current_user.is_authenticated and current_user.id == reservation.user_id
                                 and reservation.ending_time > current_time %}
                             <td>
