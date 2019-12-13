@@ -12,3 +12,4 @@
 - admin pystyy estämään varaukset veneille jotka eivät ole kunnossa
 - rekisteröitymisen muuttaminen niin, että admin lisää käyttäjän. Admin pystyy myös muuttamaan käyttäjän tietoja ja poistamaan käyttäjän (mahdollisesti soft delete)
 - veneen poiston muuttaminen soft deleteksi
+- timezonen vaihtaminen kesäaikaan, veneet eivät ole vedessä kun on talviaika. Tällä hetkellä sovelluksen käytön testauksen vuoksi asetettu talviaikaan

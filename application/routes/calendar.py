@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, url_for
 from flask_login import current_user
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy import asc, desc
 
 from application import app, db, login_required
@@ -16,7 +16,7 @@ def calendar_index():
 
     return render_template("calendar.html", 
                             reservations = Reservation.query.order_by(sort_fn(order_by_time)).all(), 
-                            current_time = datetime.now(),
+                            current_time = datetime.utcnow() + timedelta(hours = 2),
                             sort_starting = "desc" if sort == "asc" or order_by != "starting_time" else "asc",
                             sort_ending = "desc" if sort == "asc" or order_by != "ending_time" else "asc", 
                             arrow_starting = "" if order_by != "starting_time" else "↓" if sort == "desc" else "↑",
@@ -33,7 +33,7 @@ def users_reservations():
 
     return render_template("calendar.html", 
                             reservations = Reservation.query.order_by(sort_fn(order_by_time)).filter_by(user_id = current_user.id), 
-                            current_time = datetime.now(),
+                            current_time = datetime.utcnow() + timedelta(hours = 2),
                             sort_starting = "desc" if sort == "asc" or order_by != "starting_time" else "asc",
                             sort_ending = "desc" if sort == "asc" or order_by != "ending_time" else "asc", 
                             arrow_starting = "" if order_by != "starting_time" else "↓" if sort == "desc" else "↑",
