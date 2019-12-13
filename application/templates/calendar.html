@@ -4,8 +4,16 @@
     <table class="table table-striped">
         <thead class=thead-dark>
             <tr>
-                <th>Starting time</th>
-                <th>Ending time</th>
+                <th>
+                    <a class="text-white" href="{{ url_for('calendar_index') }}?order_by=starting_time&sort={{sort_starting}}">
+                        Starting time {{ arrow_starting }}
+                    </a>
+                </th>
+                <th>
+                    <a class="text-white" href="{{ url_for('calendar_index') }}?order_by=ending_time&sort={{sort_ending}}">
+                        Ending time {{ arrow_ending }}
+                    </a>
+                </th>
                 <th>Number of boats</th>     
                 <th>Actions</th>
             </tr>
