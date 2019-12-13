@@ -37,7 +37,7 @@ def make_reservation():
     message = validate_reservation_times(starting, ending)
 
     if not message == "Clear":
-        return render_template("reservations/reserve_boat.html", form = form, 
+        return render_template("reservations/show_reservationform.html", form = form, 
                                 error = message)
 
     if "admin" in current_user.roles() or "club" in current_user.roles():
@@ -114,7 +114,7 @@ def modify_reservation(reservation_id):
     message = validate_reservation_times(starting, ending)
 
     if not message == "Clear":
-        return render_template("reservations/modify_reservation.html", reservation = reservation, form = form, 
+        return render_template("reservations/show_reservationform.html", reservation = reservation, form = form, 
                                 error = message)
 
     if "admin" in current_user.roles() or "club" in current_user.roles():
