@@ -33,7 +33,7 @@ def make_reservation():
                                     button_text = "Reserve boat",  
                                     error = message)
         
-    if "admin" in current_user.roles() or "club" in current_user.roles():
+    if ("admin" in current_user.roles() or "club" in current_user.roles()):
         number_of_boats = form.boats.data
     else:
         count_users_reservations = Reservation.count_reserved_boats_for_user(datetime.now(), 
@@ -77,7 +77,7 @@ def show_reservation(reservation_id):
         return redirect(url_for("calendar_index"))
 
     form = ReservationForm(obj=reservation, boats = reservation.number_of_boats())
-    if not "admin" in current_user.roles() or "club" in current_user.roles():
+    if not ("admin" in current_user.roles() or "club" in current_user.roles()):
         del form.boats
         
     return render_template("reservations/show_reservationform.html",  
@@ -105,7 +105,7 @@ def modify_reservation(reservation_id):
                                 button_text = "Save changes", 
                                 error = message)
 
-    if "admin" in current_user.roles() or "club" in current_user.roles():
+    if ("admin" in current_user.roles() or "club" in current_user.roles()):
         number_of_boats = form.boats.data
     else:
         number_of_boats = 1
