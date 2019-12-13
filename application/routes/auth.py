@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for
 from flask_login import login_user, logout_user
 from sqlalchemy import exc
 
-from application import app, db
+from application import app, db, bcrypt
 from application.models.user import User
 from application.models.role import Role
 from application.forms.loginform import LoginForm
@@ -16,8 +16,12 @@ def show_login():
 def auth_login():
     form = LoginForm(request.form)
 
-    user = User.query.filter_by(username=form.username.data, password=form.password.data).first()
+    user = User.query.filter_by(username=form.username.data).first()
     if not user:
+        return render_template("auth/login.html", form = form,
+                               error = "No such username or password")
+
+    if not bcrypt.check_password_hash(user.password, form.password.data):
         return render_template("auth/login.html", form = form,
                                error = "No such username or password")
 
@@ -41,7 +45,8 @@ def create_user():
         return render_template("auth/register.html", form = form)
 
     try:
-        user = User(form.name.data, form.username.data, form.password.data, "test")
+        password_hash = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(form.name.data, form.username.data, password_hash, "test")
 
         user.users_roles.append(Role.query.filter_by(name = "skipper").first())
 
