@@ -3,15 +3,15 @@ from application import db
 from sqlalchemy.sql import text
 
 boat_reservation = db.Table('boat_reservation',
-    db.Column("reservation_id", db.Integer, db.ForeignKey("reservation.id")), 
+    db.Column("reservation_id", db.Integer, db.ForeignKey("reservation.id"), index=True), 
     db.Column("boat_id", db.Integer, db.ForeignKey("boat.id"))    
 )
 
 class Reservation(db.Model):
     __tablename__ = "reservation"
     id = db.Column(db.Integer, primary_key = True)
-    starting_time = db.Column(db.DateTime, nullable = False)
-    ending_time = db.Column(db.DateTime, nullable = False)
+    starting_time = db.Column(db.DateTime, nullable = False, index=True)
+    ending_time = db.Column(db.DateTime, nullable = False, index=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable = False)
     boats_reserved = db.relationship("Boat", secondary = boat_reservation, back_populates = "reservations_for_boat")

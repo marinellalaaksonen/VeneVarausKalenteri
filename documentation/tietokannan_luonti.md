@@ -19,6 +19,8 @@ CREATE TABLE reservation (
 	PRIMARY KEY (id), 
 	FOREIGN KEY(user_id) REFERENCES account (id)
 );
+CREATE INDEX ix_reservation_ending_time ON reservation (ending_time);
+CREATE INDEX ix_reservation_starting_time ON reservation (starting_time);
 ```
 
 ```
@@ -28,6 +30,7 @@ CREATE TABLE boat_reservation (
 	FOREIGN KEY(reservation_id) REFERENCES reservation (id), 
 	FOREIGN KEY(boat_id) REFERENCES boat (id)
 );
+CREATE INDEX ix_boat_reservation_reservation_id ON boat_reservation (reservation_id);
 ```
 
 ```
@@ -58,4 +61,5 @@ CREATE TABLE account_role (
 	FOREIGN KEY(account_id) REFERENCES account (id), 
 	FOREIGN KEY(role_id) REFERENCES role (id)
 );
+CREATE INDEX ix_account_role_account_id ON account_role (account_id);
 ```
