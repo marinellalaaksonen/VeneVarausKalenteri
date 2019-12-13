@@ -56,7 +56,7 @@ def make_reservation():
                                 form_action = url_for("make_reservation"), 
                                 button_text = "Reserve boat",  
                                 error = "Not enough boats available for this time, only " +
-                                    str(len(available_boats)) + "boats available")
+                                    str(len(available_boats)) + " boats available")
     
     reservation = Reservation(starting, ending, current_user.id)
 
@@ -120,7 +120,7 @@ def modify_reservation(reservation_id):
                                 form_action = url_for("modify_reservation", reservation_id=reservation_id),
                                 button_text = "Save changes", 
                                 error = "Not enough boats available for this time, only " +
-                                    str(len(available_boats)) + "boats available")
+                                    str(len(available_boats)) + " boats available")
     
     reservation.update(starting, ending)
     reservation.boats_reserved = []
